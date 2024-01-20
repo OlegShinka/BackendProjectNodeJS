@@ -1,6 +1,7 @@
 import User from "../models/Users.js";
 import { HttpErrors } from "../helpers/Httperrors.js";
-import bcrypt from "bcrypt";
+//import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import fs from "fs/promises";
 import path from "path";
@@ -12,28 +13,6 @@ import { error } from "console";
 
 const { SECRET_KEY, BASE_URL } = process.env;
 
-// const nodemailerConfig = {
-//   host: "smtp.ukr.net",
-//   port: 465, //25 465 2525
-//   secure: true,
-//   auth: {
-//     user: UKR_NET_FROM,
-//     pass: UKR_NET_PASSWORD,
-//   },
-// };
-// const transport = nodemailer.createTransport(nodemailerConfig);
-// const email = {
-//   from: UKR_NET_FROM,
-//   to: "gemimic421@rentaen.com",
-//   subject: "test email",
-//   html: "<strong> Very jussy email</strong>",
-// };
-// transport
-//   .sendMail(email)
-//   .then(() => console.log("email successfull"))
-//   .catch((error) => console.log(error.message));
-// //
-
 const regUser = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -44,7 +23,7 @@ const regUser = async (req, res, next) => {
     return next(HttpErrors(409, "Email in use"));
   }
 
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcryptjs.hash(password, 10);
 
   const avatarURL = gravatar.url(email);
   const verificationToken = nanoid();
