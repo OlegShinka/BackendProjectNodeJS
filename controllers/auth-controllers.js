@@ -109,7 +109,7 @@ const logUser = async (req, res, next) => {
     return next(HttpErrors(401, "Email not verify!"));
   }
 
-  const passwordCompare = await bcrypt.compare(password, user.password); // перевірка валідності паролю
+  const passwordCompare = await bcryptjs.compare(password, user.password); // перевірка валідності паролю
   if (!passwordCompare) {
     return res.status(401).json({
       message: "Email or password is wrong",

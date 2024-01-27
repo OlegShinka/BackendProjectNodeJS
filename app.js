@@ -4,6 +4,8 @@ import cors from "cors";
 import router from "./routes/api/contacts.js";
 import routerAuth from "./routes/api/auth.js";
 import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" assert { type: "json" };
 
 const app = express(); // app - веб-сервер створення
 
@@ -15,7 +17,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json()); // дає можливість отримувати тіло запиту
 app.use(express.static("public")); //
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/contacts", router); // якщо прийде запит з цієї адр шукай її в routes
 app.use("/api/users", routerAuth);
 
