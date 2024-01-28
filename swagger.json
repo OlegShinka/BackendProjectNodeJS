@@ -81,7 +81,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User's email",
+            "description": "User's email0",
             "format": "email"
           },
           "subscription": {
