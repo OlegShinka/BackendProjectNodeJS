@@ -12,6 +12,10 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Contacts",
+      "description": "Contacts endpoints"
     }
   ],
   "paths": {
@@ -21,6 +25,7 @@
         "summary": "User registration",
 
         "parameters": [],
+
         "security": [{ "Bearer": [] }],
 
         "requestBody": {
@@ -29,7 +34,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schema/RegistrationRequest"
+                "$ref": "#/components/schemas/RegistrationRequest"
               }
             }
           }
@@ -40,7 +45,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schema/RegistrationResponse"
+                  "$ref": "#/components/schemas/RegistrationResponse"
                 }
               }
             }
@@ -49,7 +54,128 @@
             "description": "Bad request",
             "content": {
               "schema": {
-                "$ref": "#/components/schema/RegistrationResponse"
+                "$ref": "#/components/schemas/RegistrationResponse"
+              }
+            }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User's login",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful user's login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationResponse"
+              }
+            }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/contacts": {
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Add new contact",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add contact success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactResponse"
+              }
+            }
+          },
+          "404": {}
+        }
+      },
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "List contacts",
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "type": "string",
+            "required": true,
+            "description": "User's ID"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListContactsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactResponse"
               }
             }
           },
@@ -59,7 +185,7 @@
     }
   },
   "components": {
-    "schema": {
+    "schemas": {
       "RegistrationRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -89,12 +215,106 @@
             "example": ["starter", "pro", "business"]
           }
         }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty4567"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email0",
+            "format": "email"
+          },
+          "subscription": {
+            "type": "string",
+            "example": ["starter", "pro", "business"]
+          }
+        }
+      },
+      "AddContactRequest": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact's name",
+            "example": "Robert Patrick"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact's phone",
+            "example": "012345678"
+          }
+        }
+      },
+      "AddContactResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact's name",
+            "example": "Robert Patrick"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact's email",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact's phone",
+            "example": "012345678"
+          }
+        }
+      },
+      "ListContactsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Contact's name",
+              "example": "Robert Patrick"
+            },
+            "email": {
+              "type": "string",
+              "description": "Contact's email",
+              "format": "email"
+            },
+            "phone": {
+              "type": "string",
+              "description": "Contact's phone",
+              "example": "012345678"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
-        "schema": "bearer",
+        "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
