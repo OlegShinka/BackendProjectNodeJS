@@ -160,7 +160,7 @@ const upDateSubscription = async (req, res, next) => {
     );
 
     if (!result) {
-      throw HttpErrors(404, `User with ${ownerId} not found`);
+      throw HttpErrors(404, `User with ${ownerId} not found. Please repeat.`);
     }
     res.json(result);
   } catch (error) {
