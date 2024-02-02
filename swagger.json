@@ -104,7 +104,79 @@
         }
       }
     },
-    "/contacts": {
+    "/contacts/": {
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Add new contact",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add contact success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddContactResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactResponse"
+              }
+            }
+          },
+          "404": {}
+        }
+      },
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "List contacts",
+
+        "parameters": [],
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListContactsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContactResponse"
+              }
+            }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/contacts/{contactId}": {
       "post": {
         "tags": ["Contacts"],
         "summary": "Add new contact",
